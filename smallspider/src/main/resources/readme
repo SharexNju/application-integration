@@ -1,0 +1,3 @@
+standard.xsd是标准的数据的schema
+需要自行定义转换的xslt文件，参考trans1.xsl
+可以使用XSLTTransfer类验证是否能正常工作
