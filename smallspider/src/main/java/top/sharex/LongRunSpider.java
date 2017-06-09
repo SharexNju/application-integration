@@ -2,9 +2,7 @@ package top.sharex;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by Daniel on 2017/6/9.
@@ -18,7 +16,7 @@ public class LongRunSpider {
     /**
      * 错误信息输出的格式，依次为时间、代码、错误信息
      */
-    private static final String FIAL_OUTPUT_PATTERN = "%s %s %s\n";
+    private static final String FIAL_OUTPUT_PATTERN = "%s\t%s\t%s\n";
 
     List<CodeName> allCodes;
 
@@ -48,14 +46,20 @@ public class LongRunSpider {
         allCodes = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("/codeName.txt")));
-        reader.lines().forEach(e -> {
-            String[] codeName = e.split(" ");
-            allCodes.add(new CodeName(codeName[0], codeName[1]));
-        });
+        String tem;
         try {
-            reader.close();
+            while ((tem = reader.readLine()) != null) {
+                String[] fields = tem.split(" ");
+                allCodes.add(new CodeName(fields[0], fields[1]));
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -66,7 +70,7 @@ public class LongRunSpider {
      * @param message
      */
     void writeWrong(String code, String message) {
-        String outPutInfo = String.format(FIAL_OUTPUT_PATTERN, LocalDateTime.now().toString(),
+        String outPutInfo = String.format(FIAL_OUTPUT_PATTERN, new Date(System.currentTimeMillis()).toString(),
                 code, message);
         try {
             failedFileWriter.write(outPutInfo);
@@ -90,11 +94,6 @@ public class LongRunSpider {
                 writeWrong(codeName.code, e.getMessage());
             }
             total--;
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 

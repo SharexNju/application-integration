@@ -21,7 +21,8 @@ public class FeifeiSpider implements SpiderInterface {
     int currentYear;
     int currentMonth;
     int currentSize;
-    final int maxSize = 1000;
+    final int maxSize = 200;
+    final int minSize = 50;
 
     @Override
     public void getData(String code, String outputFile) throws SpiderException {
@@ -86,7 +87,12 @@ public class FeifeiSpider implements SpiderInterface {
                     document = Jsoup.parse(connectURL, 15000);
                     break;
                 } catch (SocketException e) {
-                    System.out.printf("connect error,reconnect times:%d", times);
+                    System.out.printf("connect error,reconnect times:%d\n", times);
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
                     times++;
                 }
             }
@@ -111,7 +117,7 @@ public class FeifeiSpider implements SpiderInterface {
 
                 date = currentYear + "-" + date;
 
-                if (date.compareTo("2015-06-01") < 0)
+                if (date.compareTo("2015-06-01") < 0 && currentSize > minSize)
                     return -1;
 
                 String click = e.select("td:nth-child(1) span").text();
