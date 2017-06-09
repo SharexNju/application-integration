@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://118.89.171.93/"
+           xmlns="http://118.89.171.93/"
+           elementFormDefault="qualified">
+
+    <xs:element name="stockComments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="stockCode" type="xs:string"/>
+                <xs:element name="comments">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="comment" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="title" type="xs:string"/>
+                                        <xs:element name="url" type="xs:string"/>
+                                        <xs:element name="source" type="xs:string"/>
+                                        <xs:element name="date" type="xs:string"/>
+                                    </xs:all>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

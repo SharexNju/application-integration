@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stockComments xmlns="http://118.89.171.93/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://118.89.171.93/ stockcomments.xsd">
+    <stockCode>600000</stockCode>
+    <comments>
+        <comment>
+            <title>dwa</title>
+            <url>dwa</url>
+            <source>dwa</source>
+            <date>dwadwa</date>
+        </comment>
+        <comment>
+            <title>dd</title>
+            <url>aw</url>
+            <source>sdws</source>
+            <date>dwas</date>
+        </comment>
+    </comments>
+</stockComments>

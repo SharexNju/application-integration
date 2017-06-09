@@ -57,6 +57,6 @@ public class XSLTTransfer {
 
     public static void main(String[] args) {
         XSLTTransfer xsltTransfer = new XSLTTransfer();
-        xsltTransfer.trans("/test.xml", "D:/test4.xml", "/trans1.xsl");
+        xsltTransfer.trans("/before_trans.xml", "D:/after_trans.xml", "/fei.xsl");
     }
 }

@@ -1,3 +1,4 @@
-standard.xsd是标准的数据的schema
-需要自行定义转换的xslt文件，参考trans1.xsl
+stockcomments.xsd是标准的数据的schema
+需要自行定义转换的xslt文件，参考fei.xsl
 可以使用XSLTTransfer类验证是否能正常工作
+使用xls 将 before_trans.xml 转换为了 after_trans.xml
