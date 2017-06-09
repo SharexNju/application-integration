@@ -18,11 +18,30 @@ import java.net.URL;
  */
 public class FeifeiSpider implements SpiderInterface {
     String urlPartern = "http://istock.jrj.com.cn/list,%s,p%d.html";
+    /**
+     * 当前的年份
+     */
     int currentYear;
+    /**
+     * 当前的月份，用来判断是否到了下一年
+     */
     int currentMonth;
+    /**
+     * 当前处理了的数量
+     */
     int currentSize;
-    final int maxSize = 200;
+    /**
+     * 最多抓取1000条信息
+     */
+    final int maxSize = 1000;
+    /**
+     * 最少抓取50条
+     */
     final int minSize = 50;
+    /**
+     * 最多抓取数据到2015-01-01（从当前算起）但不能小于minSize
+     */
+    final String fromDate = "2015-01-01";
 
     @Override
     public void getData(String code, String outputFile) throws SpiderException {
@@ -78,6 +97,8 @@ public class FeifeiSpider implements SpiderInterface {
             org.jsoup.nodes.Document document = null;
             int times = 1;
             URL connectURL = new URL(url);
+
+            //这里刷新过快后页面会偶尔出现崩溃，无法获取数据，于是在这里进行重连处理
             while (true) {
                 try {
                     if (times >= 5) {
@@ -96,6 +117,7 @@ public class FeifeiSpider implements SpiderInterface {
                     times++;
                 }
             }
+
             Elements elements = document.select("#topiclisttitle tbody tr");
             if (elements.size() == 0)
                 return -1;
@@ -117,7 +139,7 @@ public class FeifeiSpider implements SpiderInterface {
 
                 date = currentYear + "-" + date;
 
-                if (date.compareTo("2015-06-01") < 0 && currentSize > minSize)
+                if (date.compareTo(fromDate) < 0 && currentSize > minSize)
                     return -1;
 
                 String click = e.select("td:nth-child(1) span").text();
