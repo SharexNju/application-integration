@@ -7,9 +7,7 @@ import org.dom4j.io.XMLWriter;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.SocketException;
 import java.net.URL;
 
@@ -17,11 +15,11 @@ import java.net.URL;
  * Created by Daniel on 2017/6/9.
  */
 public class TaoziSpider implements SpiderInterface {
-    String urlPattern = "http://guba.eastmoney.com/list,%s_%d.html";
+    String urlPattern = "http://guba.eastmoney.com/list,%s,f_%d.html";
     int currentYear;
     int currentMonth;
     int currentSize;
-    final int maxSize = 200;
+    final int maxSize = 1000;
     final int minSize = 50;
 
     @Override
@@ -37,7 +35,7 @@ public class TaoziSpider implements SpiderInterface {
         rootElement.addElement("stockCode").setText(code);
         FileWriter outPutFileWriter = null;
         try {
-            outPutFileWriter = new FileWriter(new File(outputFile));
+            outPutFileWriter = new FileWriter(outputFile);
         } catch (IOException e) {
             System.out.printf("file:%s open error\n", outputFile);
             e.printStackTrace();
@@ -70,6 +68,8 @@ public class TaoziSpider implements SpiderInterface {
     }
 
     private int spideSinglePage(Element rootElement, String url) throws SpiderException {
+
+        System.out.println(url);
 
         try {
             org.jsoup.nodes.Document document = null;
@@ -116,7 +116,7 @@ public class TaoziSpider implements SpiderInterface {
                 date = currentYear + "-" + date;
                 System.out.println(date);
 
-                if (date.compareTo("2015-06-01") < 0 && currentSize > minSize)
+                if (date.compareTo("2015-01-01") < 0 && currentSize > minSize)
                     return -1;
 
                 int subElementNum = e.child(2).childNodeSize();
@@ -164,12 +164,37 @@ public class TaoziSpider implements SpiderInterface {
 
 
     public static void main(String[] args) {
+
         TaoziSpider taoZiSpider = new TaoziSpider();
-        String filePath = TaoziSpider.class.getResource("/").getPath() + "data/taotao/600000.xml";
-        try {
-            taoZiSpider.getData("600000", filePath);
-        } catch (SpiderException e) {
-            e.printStackTrace();
+        String code = null;
+        try (BufferedReader br =
+                     new BufferedReader(new FileReader("/Users/taozihan/yyjc/application-integration/smallspider/target/classes/codeName.txt"))) {
+//            while(br.readLine()!=null){
+//                String line = br.readLine();
+//
+////                System.out.println(line);
+//                code = line.substring(0, 6);
+////                System.out.println(code);
+
+            code = "600000";
+                String filePath = TaoziSpider.class.getResource("/").getPath() + "data/taotao/"+code+".xml";
+                try {
+
+                    taoZiSpider.getData(code, filePath);
+                } catch (SpiderException e) {
+                    e.printStackTrace();
+                }
+
+//            }
+        }catch (FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+        }catch (IOException ioe){
+            ioe.printStackTrace();
         }
+
+
+
+
+
     }
 }
