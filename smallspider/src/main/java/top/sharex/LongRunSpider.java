@@ -1,8 +1,10 @@
 package top.sharex;
 
 import java.io.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Properties;
 
@@ -107,7 +109,8 @@ public class LongRunSpider {
 
     public static void main(String[] args) {
         LongRunSpider longRunSpider = new LongRunSpider();
-        longRunSpider.executeFei();
+//        longRunSpider.executeFei();
+        longRunSpider.executeRuirui();
     }
 
 }
